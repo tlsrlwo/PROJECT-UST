@@ -24,7 +24,7 @@ namespace UST
         private void Awake()
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject); // dontdestroy ¿¡ µî·Ï
+            DontDestroyOnLoad(gameObject); // dontdestroy ì— ë“±ë¡
         }
 
         private void Start()
@@ -45,7 +45,7 @@ namespace UST
             DontDestroyOnLoad(goUIManager);
 
             ChangeScene(SceneType.Title);
-            //Main.Instance.ChangeScene(scenetype.scenename) ·Î ¾À º¯°æ
+            //Main.Instance.ChangeScene(scenetype.scenename) ë¡œ ì”¬ ë³€ê²½
         }
 
         public void ChangeScene(SceneType sceneType)
@@ -66,7 +66,7 @@ namespace UST
         private IEnumerator ChangeSceneAsync<T>(SceneType sceneType) where T : SceneBase
         {
             // To do : Show Loading UI
-            // var loadingUI = UIManager.Show<LoadingUI>(UIList.LoadingUI); //ÀÌ°Å´Â ·Îµù Â÷´Â°Å 
+            // var loadingUI = UIManager.Show<LoadingUI>(UIList.LoadingUI); //ì´ê±°ëŠ” ë¡œë”© ì°¨ëŠ”ê±° 
             var loadingUI = UIManager.Show<LoadingUI>(UIList.LoadingUI);
             loadingUI.LoadingProgress = 0f;
             yield return null;

@@ -10,7 +10,7 @@ namespace UST
         public override IEnumerator OnStartScene()
         {
             var loadingUI = UIManager.Instance.GetUI<LoadingUI>(UIList.LoadingUI);
-            var asyncSceneLoad = SceneManager.LoadSceneAsync(SceneType.Game.ToString(), LoadSceneMode.Single); //Additive ¿¡¼­ Single ·Î º¯°æ(È­¸é ´©¸®³¢¸® °íÄ§)
+            var asyncSceneLoad = SceneManager.LoadSceneAsync(SceneType.Game.ToString(), LoadSceneMode.Single); //Additive ì—ì„œ Single ë¡œ ë³€ê²½(í™”ë©´ ëˆ„ë¦¬ë¼ë¦¬ ê³ ì¹¨)
             yield return new WaitUntil(() =>
             {
                 float sceneLoadProgress = asyncSceneLoad.progress / 0.9f;
