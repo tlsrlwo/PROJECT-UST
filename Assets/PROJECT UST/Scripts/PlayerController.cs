@@ -10,33 +10,17 @@ namespace UST
         public float rotateSpeed = 5f;
         public float lastMouseX = 0;
 
+        private Vector2 move;
 
-        // Start is called before the first frame update
-        void Start()
-        {
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = true;
-        }
+
+        private bool isEnableMovement = true;
 
         // Update is called once per frame
         void Update()
         {
-            if(Input.GetKey(KeyCode.W))
-            {
-                transform.position += transform.forward * moveSpeed * Time.deltaTime;
-            }
-            if (Input.GetKey(KeyCode.S))
-            {
-                transform.position += transform.forward * (-1) * moveSpeed * Time.deltaTime;
-            }
-            if(Input.GetKey(KeyCode.D))
-            {
-                transform.position += transform.right * moveSpeed * Time.deltaTime;
-            }
-            if(Input.GetKey(KeyCode.A))
-            {
-                transform.position += transform.right * (-1) * moveSpeed * Time.deltaTime;
-            }
+            float horizontal = Input.GetAxis("Horizontal");
+            float vertical = Input.GetAxis("Vertical");
+            move = new Vector2(horizontal, vertical);
 
             bool isMouseLeftMoved = lastMouseX - Input.mousePosition.x < 0;
             bool isMouseMoved = Input.mousePosition.x != lastMouseX;
@@ -45,6 +29,11 @@ namespace UST
                 transform.Rotate(Vector3.up * rotateSpeed * (isMouseLeftMoved ? -1 : 1) * Time.deltaTime);
             }
 
+        }
+
+        private void Move()
+        {
+            
         }
 
         private void LateUpdate()
