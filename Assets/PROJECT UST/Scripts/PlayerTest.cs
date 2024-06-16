@@ -6,50 +6,96 @@ namespace UST
 {
     public class PlayerTest : MonoBehaviour
     {
-        public float moveSpeed = 5f;
-        public float rotateSpeed = 5f;
-        public float lastMouseX = 0;
+        [Header("Player Move")]
+        public float moveSpeed = 3;
+        [HideInInspector] public Vector3 dir;
+        float hzInput, vInput;
+        CharacterController controller;
 
-        public void Start()
+        [Header("Gravity")]
+        [SerializeField] float groundYOffset;
+        [SerializeField] LayerMask groundMask;
+        Vector3 spherePos;
+
+        [SerializeField] float gravity = -9.81f;
+        Vector3 velocity;
+
+        [Header("Animation")]
+        private Animator animator;
+
+
+        private bool isSprint = false;
+        private Vector2 move;
+        private float speed;
+        private float animationBlend;
+
+        private bool isEnableMovement = true;
+        private bool isStrafe;       
+
+
+
+        private void Start()
         {
-            Cursor.lockState = CursorLockMode.Locked; //마우스 커서 화면 안으로 잠금
-            Cursor.visible = true;
+            controller = GetComponent<CharacterController>();
+            animator = GetComponentInChildren<Animator>();
+
         }
-        //글꼴 consolas
         private void Update()
         {
-            Debug.Log("Update");
+            PlayerMove();
+            Gravity();
 
-            if (Input.GetKey(KeyCode.W))
+            isSprint = Input.GetKey(KeyCode.LeftShift);
+            if(isSprint)
             {
-                transform.position += transform.forward * moveSpeed * Time.deltaTime; //x = 0, y = 0, z = 1
+                animator.SetFloat("MotionSpeed", 1.25f);
             }
-            if (Input.GetKey(KeyCode.S))
+            else
             {
-                transform.position += transform.forward * (-1) * moveSpeed * Time.deltaTime; //x = 0, y = 0, z = -1
-            }
-            if (Input.GetKey(KeyCode.A))
-            {
-                transform.position += transform.right * (-1) * moveSpeed * Time.deltaTime; //x = -1, y = 0, z = 0
-            }
-            if (Input.GetKey(KeyCode.D))
-            {
-                transform.position += transform.right * moveSpeed * Time.deltaTime; //x = 1, y = 0, z = 0
+                animator.SetFloat("MotionSpeed", 1f);
             }
 
-            bool isMouseLeftMoved = lastMouseX - Input.mousePosition.x < 0;
-            bool isMouseMoved = Input.mousePosition.x != lastMouseX;
-            if (isMouseMoved)
+            if(isStrafe)
             {
-                transform.Rotate(Vector3.up * rotateSpeed * (isMouseLeftMoved ? -1 : 1) * Time.deltaTime);
+                //
             }
 
+
+
+            animator.SetFloat("Speed", animationBlend);
+            animator.SetFloat("Horizontal", move.x);
+            animator.SetFloat("Vertical", move.y);
+            animator.SetFloat("Strafe", isStrafe ? 1 : 0);
         }
-        private void LateUpdate()
+
+
+        void PlayerMove()
         {
-            lastMouseX = Input.mousePosition.x;
+            hzInput = Input.GetAxis("Horizontal");
+            vInput = Input.GetAxis("Vertical");
+
+            dir = transform.forward * vInput + transform.right * hzInput;
+
+            controller.Move(dir * moveSpeed * Time.deltaTime);
         }
 
+        bool IsGrounded()
+        {
+            spherePos = new Vector3(transform.position.x, transform.position.y - groundYOffset, transform.position.z);
+            if (Physics.CheckSphere(spherePos, controller.radius - 0.05f, groundMask)) return true;
+            return false;
+
+        }
+
+        void Gravity()
+        {
+            if (!IsGrounded()) velocity.y += gravity * Time.deltaTime;
+            else if (velocity.y < 0) velocity.y = -2;
+
+            controller.Move(velocity * Time.deltaTime);
+        }
+
+       
 
     }
 }
