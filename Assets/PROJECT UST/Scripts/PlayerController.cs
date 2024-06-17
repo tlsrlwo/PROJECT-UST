@@ -15,6 +15,8 @@ namespace UST
         public float moveSpeed = 3.0f;
         public float sprintSpeed = 5.0f;
         public float speedChangeRate = 10.0f;
+        public float fallingSpeed = -3.0f;
+        public float groundedRadius = 0.01f;
 
         public float cameraHorizontalSpeed = 2.0f;
         public float cameraVerticalSpeed = 2.0f;
@@ -37,6 +39,15 @@ namespace UST
         private float targetRotation = 0.0f;
         private float rotationVelocity;
         private float verticalVelocity;
+
+        [Header("Gravity")]
+        [SerializeField] float groundYOffset;
+        [SerializeField] LayerMask groundMask;
+        Vector3 spherePos;
+
+        [SerializeField] float gravity = -9.81f;
+        Vector3 velocity;
+
 
         private Vector2 look;
         private const float _threshold = 0.01f;
@@ -63,6 +74,8 @@ namespace UST
 
         private void Update()
         {
+            IsGrounded();
+
             float horizontal = Input.GetAxis("Horizontal");
             float vertical = Input.GetAxis("Vertical");
 
@@ -81,9 +94,9 @@ namespace UST
                 cameraForward.y = 0;
                 transform.forward = cameraForward;
             }
-                      
 
             Move();
+            Gravity();
 
             animator.SetFloat("Speed", animationBlend);
             animator.SetFloat("Horizontal", move.x);
@@ -182,6 +195,27 @@ namespace UST
             // move the player
             controller.Move(targetDirection.normalized * (speed * Time.deltaTime) +
                              new Vector3(0.0f, verticalVelocity, 0.0f) * Time.deltaTime);
+        }
+        bool IsGrounded()
+        {
+            spherePos = new Vector3(transform.position.x, transform.position.y - groundYOffset, transform.position.z);
+
+            if (Physics.CheckSphere(spherePos, groundedRadius, groundMask))
+            {
+                verticalVelocity = 0f;
+                return true;
+            }
+
+            verticalVelocity = fallingSpeed;
+            return false;
+        }
+
+        void Gravity()
+        {
+            //if (!IsGrounded()) velocity.y += gravity * Time.deltaTime;
+            //else if (velocity.y < 0) velocity.y = -2;
+
+            //controller.Move(velocity * Time.deltaTime);
         }
 
         private static float ClampAngle(float lfAngle, float lfMin, float lfMax)
