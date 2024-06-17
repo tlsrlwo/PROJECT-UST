@@ -55,9 +55,13 @@ namespace UST
                 animator.SetFloat("MotionSpeed", 1f);
             }
 
-            if(isStrafe)
+            isStrafe = Input.GetKey(KeyCode.Mouse1);
+            if (isStrafe)
             {
-                //
+                Vector3 cameraForward = Camera.main.transform.forward.normalized;
+                cameraForward.y = 0;
+                transform.forward = cameraForward;
+                
             }
 
 

@@ -81,21 +81,7 @@ namespace UST
                 cameraForward.y = 0;
                 transform.forward = cameraForward;
             }
-
-            if (Input.GetKeyDown(KeyCode.Mouse0))
-            {
-                //공격
-                if (attackComboCount == 0)
-                {
-                    animator.SetTrigger("Trigger_Attack");
-                    attackComboCount++;
-                }
-                else
-                {
-                    attackComboCount++;
-                    animator.SetInteger("ComboCount", attackComboCount);
-                }
-            }
+                      
 
             Move();
 
