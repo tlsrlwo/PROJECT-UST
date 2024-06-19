@@ -32,6 +32,10 @@ namespace UST
         private Camera mainCamera;
         private CharacterController controller;
 
+        [Header("Weapon FOV")]
+        public float defaultFOV;
+        public float aimFOV;
+
         private bool isSprint = false;
         private Vector2 move;
         private float speed;
@@ -95,8 +99,21 @@ namespace UST
                 transform.forward = cameraForward;
             }
 
+            if (Input.GetKeyDown(KeyCode.Mouse1)) //mouse right duplicated with strafe
+            {
+                //zoom in
+                CameraSystem.Instance.TargetFOV = aimFOV;
+                
+            }
+            if (Input.GetKeyUp(KeyCode.Mouse1))
+            {
+                //zoom out
+                CameraSystem.Instance.TargetFOV = defaultFOV;
+                
+            }
+
             Move();
-            Gravity();
+            
 
             animator.SetFloat("Speed", animationBlend);
             animator.SetFloat("Horizontal", move.x);
@@ -134,14 +151,10 @@ namespace UST
         {
             if (!isEnableMovement)
                 return;
+           
+            float targetSpeed = isSprint ? sprintSpeed : moveSpeed;         
 
-            // set target speed based on move speed, sprint speed and if sprint is pressed
-            float targetSpeed = isSprint ? sprintSpeed : moveSpeed;
-
-            // a simplistic acceleration and deceleration designed to be easy to remove, replace, or iterate upon
-
-            // note: Vector2's == operator uses approximation so is not floating point error prone, and is cheaper than magnitude
-            // if there is no input, set the target speed to 0
+            
             if (move == Vector2.zero) targetSpeed = 0.0f;
 
             // a reference to the players current horizontal velocity
