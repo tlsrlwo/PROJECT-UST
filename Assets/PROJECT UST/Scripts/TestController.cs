@@ -16,13 +16,31 @@ namespace UST
         public LayerMask groundMask;
         Vector3 velocity;
         bool isGrounded;
+
+        [Header("Camera")]
+        public Camera playerCamera;
+        [SerializeField]  public float lookSpeed = 1f;
+        public float lookXLimit = 45f;
+
+        Vector3 moveDirection = Vector3.zero;
+        float rotationX = 0;
+
+        public bool canMove = true;
                 
 
         [SerializeField] CharacterController controller;
 
         private void Awake()
         {
-            
+            controller = GetComponent<CharacterController>();
+
+
+        }
+
+        private void Start()
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false; 
         }
 
 
@@ -46,7 +64,19 @@ namespace UST
 
             velocity.y += gravity * Time.deltaTime;
 
-            controller.Move(velocity * Time.deltaTime);            
+            controller.Move(velocity * Time.deltaTime);         
+            
+
+            //rotation
+            controller.Move(moveDirection * Time.deltaTime);
+            if(canMove)
+            {
+                rotationX += Input.GetAxis("Mouse Y") * -1 * lookSpeed;
+                rotationX = Mathf.Clamp(rotationX, -lookXLimit, lookXLimit);
+                playerCamera.transform.localRotation = Quaternion.Euler(rotationX, 0, 0);
+                transform.rotation *= Quaternion.Euler(0, Input.GetAxis("Mouse X") * lookSpeed, 0);
+            }
+
 
         }
         void Jump()
