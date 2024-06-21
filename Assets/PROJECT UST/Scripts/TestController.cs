@@ -6,74 +6,59 @@ namespace UST
 {
     public class TestController : MonoBehaviour
     {
-        public float inputDelay = 0.1f;
-        public float forwardVel = 12;
-        public float rotateVel = 100;
+        [Header("Player Move")]
+        public float speed = 6f;
+        public float jumpHeight = 3f;
+        private float jumpMultiplier = 1f;
+        public float gravity = -9.81f;
+        public Transform groundCheck;
+        public float groundDistance = 0.4f;
+        public LayerMask groundMask;
+        Vector3 velocity;
+        bool isGrounded;
+                
 
-        Quaternion targetRotation;
-        Rigidbody rBody;
-        float forwardInput, turnInput;
+        [SerializeField] CharacterController controller;
 
-        public Quaternion TargetRotation
-        {
-            get { return targetRotation; }
-        }
-
-        private void Start()
-        {
-            targetRotation = transform.rotation;
-            if(GetComponent<Rigidbody>())
-            {
-            rBody = GetComponent<Rigidbody>(); 
-
-            }
-            else
-            {
-                Debug.LogError("the character needs a rigidbody");
-            }
-
-
-            forwardInput = turnInput = 0;
-
-        }
-
-        void GetInput()
-        {
-            forwardInput = Input.GetAxis("Vertical");
-            turnInput = Input.GetAxis("Horizontal");
-        }
-
-        private void Update()
-        {
-            //GetInput();
-            //Turn();
-        }
-
-        private void FixedUpdate()
+        private void Awake()
         {
             
         }
 
-        void Run()
-        {
-            if(Mathf.Abs(forwardInput) > inputDelay)
-            {
-                //move
-                rBody.velocity = transform.forward * forwardInput * forwardVel;
-            }
-            else 
-            {
-                //zero velocity
-                rBody.velocity = Vector3.zero;
-            }
-        }
 
-        void Turn()
+        private void Update()
         {
-            targetRotation = Quaternion.AngleAxis(rotateVel * turnInput * Time.deltaTime, Vector3.up);
-            transform.rotation = targetRotation;
-        }
+            isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
+            if(isGrounded && velocity.y < 0)
+            {
+                speed = 6f;
+                velocity.y = -2f; 
+            }
 
+            float x = Input.GetAxis("Horizontal");
+            float z = Input.GetAxis("Vertical");
+
+            Vector3 move = transform.right * x + transform.forward * z;
+
+            controller.Move(move * speed * Time.deltaTime);
+
+            Jump();
+
+            velocity.y += gravity * Time.deltaTime;
+
+            controller.Move(velocity * Time.deltaTime);            
+
+        }
+        void Jump()
+        {
+            if((Input.GetButtonDown("Jump")) && isGrounded)
+            {
+                velocity.y = Mathf.Sqrt(jumpHeight * -2 * gravity * jumpMultiplier);
+                jumpMultiplier = 1f;
+
+            }
+
+        }
 
 
 

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 namespace UST
 {
     public class PlayerController : MonoBehaviour
@@ -30,7 +31,8 @@ namespace UST
 
         private Animator animator;
         private Camera mainCamera;
-        private CharacterController controller;
+
+        [SerializeField] CharacterController controller;
 
         [Header("Weapon FOV")]
         public float defaultFOV;
@@ -44,13 +46,18 @@ namespace UST
         private float rotationVelocity;
         private float verticalVelocity;
 
-        [Header("Gravity")]
+        [Header("Jump Realted")]
         [SerializeField] float groundYOffset;
-        [SerializeField] LayerMask groundMask;
+        
         Vector3 spherePos;
-
-        [SerializeField] float gravity = -9.81f;
-        Vector3 velocity;
+        public float gravity = -9.81f;
+        public Transform groundCheck;
+        public float groundDistance = 0.4f;
+        public LayerMask groundMask;
+        public float jumpHeight = 3f;
+        private float jumpMultiplier = 1f;
+        private bool isGrounded;
+    
 
 
         private Vector2 look;
@@ -63,11 +70,15 @@ namespace UST
 
         private bool isStrafe;
 
+       
+
+
         private void Awake()
         {
             animator = GetComponentInChildren<Animator>();
             controller = GetComponent<CharacterController>();
             mainCamera = Camera.main;
+            
         }
 
         private void Start()
@@ -84,6 +95,8 @@ namespace UST
             float vertical = Input.GetAxis("Vertical");
 
             move = new Vector2(horizontal, vertical);
+            
+
 
             float hMouse = Input.GetAxis("Mouse X");
             float vMouse = Input.GetAxis("Mouse Y") * -1; //-1을 곱하는 이유는 상하반전을 일으킴(마우스 위아래 움직임)
@@ -111,9 +124,11 @@ namespace UST
                 CameraSystem.Instance.TargetFOV = defaultFOV;
                 
             }
-
-            Move();
             
+            Move();
+
+            
+
 
             animator.SetFloat("Speed", animationBlend);
             animator.SetFloat("Horizontal", move.x);
@@ -121,6 +136,7 @@ namespace UST
             animator.SetFloat("Strafe", isStrafe ? 1 : 0);
         }
 
+       
         private void LateUpdate()
         {
             CameraRotation();
@@ -209,7 +225,10 @@ namespace UST
             controller.Move(targetDirection.normalized * (speed * Time.deltaTime) +
                              new Vector3(0.0f, verticalVelocity, 0.0f) * Time.deltaTime);
         }
-        bool IsGrounded()
+
+      
+
+            bool IsGrounded()
         {
             spherePos = new Vector3(transform.position.x, transform.position.y - groundYOffset, transform.position.z);
 
@@ -222,14 +241,14 @@ namespace UST
             verticalVelocity = fallingSpeed;
             return false;
         }
-
+        /*
         void Gravity()
         {
-            //if (!IsGrounded()) velocity.y += gravity * Time.deltaTime;
-            //else if (velocity.y < 0) velocity.y = -2;
+            if (!IsGrounded()) velocity.y += gravity * Time.deltaTime;
+            else if (velocity.y < 0) velocity.y = -2;
 
-            //controller.Move(velocity * Time.deltaTime);
-        }
+            controller.Move(velocity * Time.deltaTime);
+        }*/
 
         private static float ClampAngle(float lfAngle, float lfMin, float lfMax)
         {
