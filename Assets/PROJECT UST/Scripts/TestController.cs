@@ -22,7 +22,7 @@ namespace UST
         [SerializeField]  public float lookSpeed = 1f;
         public float lookXLimit = 45f;
 
-        Vector3 moveDirection = Vector3.zero;
+        Vector3 moveDirection = Vector3.zero; //(Vector3 (0,0,0) 
         float rotationX = 0;
 
         public bool canMove = true;
