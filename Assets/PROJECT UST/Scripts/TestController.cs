@@ -26,7 +26,7 @@ namespace UST
         float rotationX = 0;
 
         public bool canMove = true;
-                
+
 
         [SerializeField] CharacterController controller;
 
@@ -77,6 +77,7 @@ namespace UST
                 transform.rotation *= Quaternion.Euler(0, Input.GetAxis("Mouse X") * lookSpeed, 0);
             }
 
+     
 
         }
         void Jump()
