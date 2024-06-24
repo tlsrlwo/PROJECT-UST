@@ -19,6 +19,7 @@ namespace UST
 
             Quaternion portalRotationalDifference = Quaternion.AngleAxis(angularDifferenceBetweenPortalRotations, Vector3.up);
             Vector3 newCameraDirection = portalRotationalDifference * playerCamera.forward;
+            
             transform.rotation = Quaternion.LookRotation(newCameraDirection, Vector3.up);
         }
 

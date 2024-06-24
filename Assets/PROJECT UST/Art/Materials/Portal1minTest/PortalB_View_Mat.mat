@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Material_B_View
+  m_Name: PortalB_View_Mat
   m_Shader: {fileID: 4800000, guid: c7f40c8a855b83f40804ef0a780eed17, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
