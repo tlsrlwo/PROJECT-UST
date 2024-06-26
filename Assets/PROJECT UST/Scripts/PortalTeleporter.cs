@@ -8,20 +8,20 @@ namespace UST
     {
         public Transform player;
         public Transform reciever;
+        //public Collider teleportCollider;
 
         private bool playerIsOverlapping = false;
-             
 
         // Update is called once per frame
         void Update()
         {
-            if(playerIsOverlapping)
+            if (playerIsOverlapping)
             {
                 Vector3 portalToPlayer = player.position - transform.position;
                 float dotProduct = Vector3.Dot(transform.up, portalToPlayer);
 
                 // if this is true ; the player has moved across the portal
-                if(dotProduct < 0f)
+                if (dotProduct < 0f)
                 {
                     //teleport
                     float rotationDiff = -Quaternion.Angle(transform.rotation, reciever.rotation);
@@ -30,25 +30,22 @@ namespace UST
 
                     Vector3 positionOffset = Quaternion.Euler(0f, rotationDiff, 0f) * portalToPlayer;
                     player.position = reciever.position + positionOffset;
-
                     playerIsOverlapping = false;
-
                 }
             }
         }
 
         private void OnTriggerEnter(Collider other)
         {
-            if(other.tag == "Player")
+            if (other.CompareTag("Player"))
             {
                 playerIsOverlapping = true;
-               
             }
         }
 
         private void OnTriggerExit(Collider other)
         {
-            if(other.tag == "Player")
+            if (other.CompareTag("Player"))
             {
                 playerIsOverlapping = false;
             }
