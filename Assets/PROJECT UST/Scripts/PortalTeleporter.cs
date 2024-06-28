@@ -40,6 +40,7 @@ namespace UST
             if (other.CompareTag("Player"))
             {
                 playerIsOverlapping = true;
+                Debug.Log("playerAttached");
             }
         }
 
@@ -48,6 +49,7 @@ namespace UST
             if (other.CompareTag("Player"))
             {
                 playerIsOverlapping = false;
+                Debug.Log("PlayerisDetached");
             }
         }
     }
