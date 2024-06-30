@@ -18,7 +18,8 @@ namespace UST
             if (playerIsOverlapping)
             {
                 Vector3 portalToPlayer = player.position - transform.position;
-                float dotProduct = Vector3.Dot(transform.up, portalToPlayer);
+                //float dotProduct = Vector3.Dot(transform.up, portalToPlayer);
+                float dotProduct = System.Math.Sign(Vector3.Dot(player.position - transform.position, transform.forward));
 
                 // if this is true ; the player has moved across the portal
                 if (dotProduct < 0f)

@@ -34,7 +34,8 @@ namespace UST
 
                 GameObject hit = rayHit.transform.gameObject;
 
-                A.transform.rotation = hit.transform.rotation;
+                //A.transform.rotation = hit.transform.rotation;
+                A.transform.forward = -rayHit.normal;
             }
         }
 
@@ -50,7 +51,8 @@ namespace UST
 
                 GameObject hit = rayHit.transform.gameObject;
 
-                B.transform.rotation = hit.transform.rotation;
+                //B.transform.rotation = hit.transform.rotation;
+                B.transform.forward = rayHit.normal;
             }
         }
 
