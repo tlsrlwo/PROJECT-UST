@@ -10,6 +10,9 @@ namespace UST
         public GameObject A;
         public GameObject B;
 
+        
+        [SerializeField] private LayerMask portalWallLayer;
+
         private void Update()
         {
             if (Input.GetButtonDown("Fire1"))
@@ -24,9 +27,9 @@ namespace UST
 
         public void ShootA()
         {
-            RaycastHit rayHit;
+            //RaycastHit rayHit;
 
-            if (Physics.Raycast(cam.transform.position, cam.transform.forward, out rayHit))
+            if (Physics.Raycast(cam.transform.position, cam.transform.forward, out RaycastHit rayHit, portalWallLayer))
             {
                 Vector3 hitPos = rayHit.point;
 
@@ -37,14 +40,16 @@ namespace UST
                 //A.transform.rotation = hit.transform.rotation;
                 A.transform.forward = -rayHit.normal;
             }
+          
+            
         }
 
         public void ShootB()
         {
-            RaycastHit rayHit;
+            //RaycastHit rayHit;
 
-            if (Physics.Raycast(cam.transform.position, cam.transform.forward, out rayHit))
-            {
+            if (Physics.Raycast(cam.transform.position, cam.transform.forward, out RaycastHit rayHit, portalWallLayer))
+            {               
                 Vector3 hitPos = rayHit.point;
 
                 B.transform.position = hitPos;

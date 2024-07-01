@@ -21,6 +21,7 @@ namespace UST
             Vector3 newCameraDirection = portalRotationalDifference * playerCamera.forward;
             
             transform.rotation = Quaternion.LookRotation(newCameraDirection, Vector3.up);
+                                                      
         }
 
 

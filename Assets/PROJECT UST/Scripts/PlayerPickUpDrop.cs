@@ -20,7 +20,7 @@ namespace UST
                 {
                     // not carrying an object, try to grab
                     float pickUpDistance = 2f;
-                    if (Physics.Raycast(playerCameraTransform.position, playerCameraTransform.forward, out RaycastHit raycastHit, pickUpDistance))
+                    if (Physics.Raycast(playerCameraTransform.position, playerCameraTransform.forward, out RaycastHit raycastHit, pickUpDistance, pickUpLayerMask))
                     {
                         Debug.Log(raycastHit.transform);
                     }
