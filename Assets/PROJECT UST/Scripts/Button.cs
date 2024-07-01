@@ -6,29 +6,40 @@ namespace UST
 {
     public class Button : MonoBehaviour
     {
-        private Animator animator;
-        private bool Clicked;
+        public Animator animator;
+        private bool clicked;
+
+        private List<Transform> pressedObjects = new List<Transform>();
 
         private void Start()
         {
-            animator = GetComponent<Animator>();
             animator.SetBool("isClicked", false);
         }
 
-        private void OnTriggerStay(Collider other)
+        private void OnTriggerEnter(Collider other)
         {
-            if(other.CompareTag("PickUps"))
+            if (other.CompareTag("PickUps") || other.CompareTag("Player"))
             {
+                pressedObjects.Add(other.transform.root);
                 animator.SetBool("isClicked", true);
-                Clicked = true;
+                clicked = true;
             }
         }
+
         private void OnTriggerExit(Collider other)
         {
-            animator.SetBool("isClicked", false);
-            Clicked = false;
+            if (other.CompareTag("PickUps") || other.CompareTag("Player"))
+            {
+                pressedObjects.Remove(other.transform.root);
+
+                if (pressedObjects.Count <= 0)
+                {
+                    clicked = false;
+                    animator.SetBool("isClicked", false);
+                }
+            }
         }
 
-        
+
     }
 }
