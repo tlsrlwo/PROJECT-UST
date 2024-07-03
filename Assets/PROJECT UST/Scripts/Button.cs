@@ -9,11 +9,15 @@ namespace UST
         public Animator animator;
         private bool clicked;
 
+        [SerializeField] private GameObject door;
+        [SerializeField] private Animation doorAnim;
+
         private List<Transform> pressedObjects = new List<Transform>();
 
         private void Start()
         {
             animator.SetBool("isClicked", false);
+           
         }
 
         private void OnTriggerEnter(Collider other)
@@ -23,6 +27,7 @@ namespace UST
                 pressedObjects.Add(other.transform.root);
                 animator.SetBool("isClicked", true);
                 clicked = true;
+               
             }
         }
 
@@ -36,6 +41,7 @@ namespace UST
                 {
                     clicked = false;
                     animator.SetBool("isClicked", false);
+                    
                 }
             }
         }
