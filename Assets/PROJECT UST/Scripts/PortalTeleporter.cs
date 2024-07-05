@@ -11,6 +11,7 @@ namespace UST
         //public Collider teleportCollider;
 
         private bool playerIsOverlapping = false;
+       
 
         // Update is called once per frame
         void Update()

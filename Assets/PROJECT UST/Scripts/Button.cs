@@ -10,7 +10,8 @@ namespace UST
         private bool clicked;
 
         [SerializeField] private GameObject door;
-        [SerializeField] private Animation doorAnim;
+        private bool isOpened;
+        //[SerializeField] private Animation doorAnim;
 
         private List<Transform> pressedObjects = new List<Transform>();
 
@@ -24,9 +25,16 @@ namespace UST
         {
             if (other.CompareTag("PickUps") || other.CompareTag("Player"))
             {
+                //Debug.Log("Button Clicked");
                 pressedObjects.Add(other.transform.root);
                 animator.SetBool("isClicked", true);
+
                 clicked = true;
+                if(!isOpened)
+                {
+                    isOpened = true;
+                    door.transform.position += new Vector3(0, 4, 0);
+                }
                
             }
         }
@@ -41,6 +49,12 @@ namespace UST
                 {
                     clicked = false;
                     animator.SetBool("isClicked", false);
+
+                    if(isOpened)
+                    {
+                        door.transform.position -= new Vector3(0, 4, 0);
+                        isOpened = false;
+                    }
                     
                 }
             }
