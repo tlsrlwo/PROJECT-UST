@@ -30,12 +30,12 @@ namespace UST
                 animator.SetBool("isClicked", true);
 
                 clicked = true;
-                if(!isOpened)
-                {
-                    isOpened = true;
-                    door.transform.position += new Vector3(0, 4, 0);
-                }
-               
+                /* if(!isOpened)
+                 {
+                     isOpened = true;
+                     door.transform.position += new Vector3(0, 4, 0);
+                 }*/
+                Invoke("DoorOpen", 1.5f);
             }
         }
 
@@ -50,16 +50,33 @@ namespace UST
                     clicked = false;
                     animator.SetBool("isClicked", false);
 
-                    if(isOpened)
-                    {
-                        door.transform.position -= new Vector3(0, 4, 0);
-                        isOpened = false;
-                    }
-                    
+                    /* if(isOpened)
+                     {
+                         door.transform.position -= new Vector3(0, 4, 0);
+                         isOpened = false;
+                     }*/
+                    Invoke("DoorClosed", 1.5f);
                 }
             }
         }
 
+        void DoorOpen()
+        {
+            if(!isOpened)
+                {
+                    isOpened = true;
+                    door.transform.position += new Vector3(0, 4, 0);
+                }
+        }
+
+        void DoorClosed()
+        {
+            if (isOpened)
+            {
+                door.transform.position -= new Vector3(0, 4, 0);
+                isOpened = false;
+            }
+        }
 
     }
 }
