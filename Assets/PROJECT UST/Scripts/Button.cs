@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Searcher;
 using UnityEngine;
 
 namespace UST
@@ -7,10 +8,14 @@ namespace UST
     public class Button : MonoBehaviour
     {
         public Animator animator;
+        
         private bool clicked;
 
         [SerializeField] private GameObject door;
         private bool isOpened;
+        public bool doorOpening;
+        public bool doorClosing;
+
         //[SerializeField] private Animation doorAnim;
 
         private List<Transform> pressedObjects = new List<Transform>();
@@ -21,6 +26,12 @@ namespace UST
            
         }
 
+        private void Update()
+        {
+            DoorOpen();
+            DoorClosed();
+        }
+
         private void OnTriggerEnter(Collider other)
         {
             if (other.CompareTag("PickUps") || other.CompareTag("Player"))
@@ -28,14 +39,16 @@ namespace UST
                 //Debug.Log("Button Clicked");
                 pressedObjects.Add(other.transform.root);
                 animator.SetBool("isClicked", true);
-
                 clicked = true;
-                /* if(!isOpened)
+                doorOpening = true;
+                
+
+                /*if(!isOpened)
                  {
                      isOpened = true;
                      door.transform.position += new Vector3(0, 4, 0);
                  }*/
-                Invoke("DoorOpen", 1.5f);
+                //Invoke("DoorOpen", 1.0f);
             }
         }
 
@@ -49,32 +62,39 @@ namespace UST
                 {
                     clicked = false;
                     animator.SetBool("isClicked", false);
+                    doorClosing = true;
 
                     /* if(isOpened)
                      {
                          door.transform.position -= new Vector3(0, 4, 0);
                          isOpened = false;
                      }*/
-                    Invoke("DoorClosed", 1.5f);
+                    //Invoke("DoorClosed", 1.0f);
                 }
             }
         }
 
         void DoorOpen()
         {
-            if(!isOpened)
-                {
-                    isOpened = true;
-                    door.transform.position += new Vector3(0, 4, 0);
-                }
+            if (doorOpening == true) 
+            {
+                door.transform.Translate(Vector3.up * Time.deltaTime * 5);              
+            }
+            if (door.transform.position.y > 7f)
+            {
+                doorOpening = false;
+            }
         }
 
         void DoorClosed()
         {
-            if (isOpened)
+           if(doorClosing == true)
             {
-                door.transform.position -= new Vector3(0, 4, 0);
-                isOpened = false;
+                door.transform.Translate(Vector3.down * Time.deltaTime * 5);
+            }
+            if (door.transform.position.y <= 2.5f)
+            {
+                doorClosing = false;
             }
         }
 
