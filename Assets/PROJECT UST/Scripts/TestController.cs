@@ -27,13 +27,11 @@ namespace UST
 
         public bool canMove = true;
 
-
         [SerializeField] CharacterController controller;
 
         private void Awake()
         {
             controller = GetComponent<CharacterController>();
-
 
         }
 

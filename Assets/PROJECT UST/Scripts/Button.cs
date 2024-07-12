@@ -8,13 +8,15 @@ namespace UST
     public class Button : MonoBehaviour
     {
         public Animator animator;
-        
+
         private bool clicked;
 
         [SerializeField] private GameObject door;
         private bool isOpened;
-        public bool doorOpening;
-        public bool doorClosing;
+
+        private bool isDoorActivate;
+        public Vector3 openedPosition;
+        public Vector3 closedPosition;
 
         //[SerializeField] private Animation doorAnim;
 
@@ -23,13 +25,14 @@ namespace UST
         private void Start()
         {
             animator.SetBool("isClicked", false);
-           
+
         }
 
         private void Update()
         {
-            DoorOpen();
-            DoorClosed();
+            UpdateDoor();
+            //DoorOpen();
+            //DoorClosed();
         }
 
         private void OnTriggerEnter(Collider other)
@@ -40,8 +43,8 @@ namespace UST
                 pressedObjects.Add(other.transform.root);
                 animator.SetBool("isClicked", true);
                 clicked = true;
-                doorOpening = true;
-                
+                isDoorActivate = true;
+
 
                 /*if(!isOpened)
                  {
@@ -62,7 +65,7 @@ namespace UST
                 {
                     clicked = false;
                     animator.SetBool("isClicked", false);
-                    doorClosing = true;
+                    isDoorActivate = false;
 
                     /* if(isOpened)
                      {
@@ -74,29 +77,50 @@ namespace UST
             }
         }
 
-        void DoorOpen()
+        public void UpdateDoor()
         {
-            if (doorOpening == true) 
+            if (isDoorActivate)
             {
-                door.transform.Translate(Vector3.up * Time.deltaTime * 5);              
+                // To do : Door Open
+                if (door.transform.localPosition.y < openedPosition.y)
+                {
+                    door.transform.Translate(door.transform.up * Time.deltaTime * 5);
+                }
             }
-            if (door.transform.position.y > 7f)
+            else
             {
-                doorOpening = false;
+                // To do : Door Closed
+                if (door.transform.localPosition.y > closedPosition.y)
+                {
+                    door.transform.Translate(-1 * door.transform.up * Time.deltaTime * 5);
+                }
             }
         }
 
-        void DoorClosed()
-        {
-           if(doorClosing == true)
-            {
-                door.transform.Translate(Vector3.down * Time.deltaTime * 5);
-            }
-            if (door.transform.position.y <= 2.5f)
-            {
-                doorClosing = false;
-            }
-        }
+
+        //void DoorOpen()
+        //{
+        //    if (doorOpening == true)
+        //    {
+        //        door.transform.Translate(Vector3.up * Time.deltaTime * 5);
+        //    }
+        //    if (door.transform.position.y > 7f)
+        //    {
+        //        doorOpening = false;
+        //    }
+        //}
+
+        //void DoorClosed()
+        //{
+        //    if (doorClosing == true)
+        //    {
+        //        door.transform.Translate(Vector3.down * Time.deltaTime * 5);
+        //    }
+        //    if (door.transform.position.y <= 2.5f)
+        //    {
+        //        doorClosing = false;
+        //    }
+        //}
 
     }
 }
