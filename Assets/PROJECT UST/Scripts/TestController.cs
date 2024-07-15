@@ -6,6 +6,8 @@ namespace UST
 {
     public class TestController : MonoBehaviour
     {
+        public static TestController Instance { get; private set; } = null;
+
         [Header("Player Move")]
         public float speed = 6f;
         public float jumpHeight = 3f;
@@ -31,8 +33,14 @@ namespace UST
 
         private void Awake()
         {
+            Instance = this;
             controller = GetComponent<CharacterController>();
 
+        }
+
+        private void OnDestroy()
+        {
+            Instance = null;
         }
 
         private void Start()

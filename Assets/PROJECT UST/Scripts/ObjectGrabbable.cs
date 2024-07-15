@@ -8,6 +8,7 @@ namespace UST
     {
         private Rigidbody objectsRb;
         private Transform objectGrabPointTransform;
+        private bool isGrabbed = false;
 
         private void Awake()
         {
@@ -18,12 +19,23 @@ namespace UST
         {
             this.objectGrabPointTransform = objectGrabPointTransform;
             objectsRb.useGravity = false;
+            isGrabbed = true;
         }
+
         public void Drop()
         {
             this.objectGrabPointTransform = null;
             objectsRb.useGravity = true;
-        }    
+            isGrabbed = false;
+        }
+
+        private void Update()
+        {
+            if (isGrabbed)
+            {
+                objectsRb.transform.forward = TestController.Instance.transform.forward;            
+            }
+        }
 
         private void FixedUpdate()
         {
@@ -32,6 +44,7 @@ namespace UST
                 float lerpSpeed = 10f;
                 Vector3 newPosition = Vector3.Lerp(transform.position, objectGrabPointTransform.position, Time.deltaTime * lerpSpeed);
                 objectsRb.MovePosition(newPosition);
+                //objectsRb.angularVelocity = new Vector3(1, 2, 3);
             }
         }
     }
