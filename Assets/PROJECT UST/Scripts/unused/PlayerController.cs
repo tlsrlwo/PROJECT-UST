@@ -46,7 +46,7 @@ namespace UST
         private float rotationVelocity;
         private float verticalVelocity;
 
-        [Header("Jump Realted")]
+        [Header("Jump Related")]
         [SerializeField] float groundYOffset;
         
         Vector3 spherePos;
