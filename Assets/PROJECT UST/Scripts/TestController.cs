@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -19,9 +20,12 @@ namespace UST
         Vector3 velocity;
         bool isGrounded;
 
+        [SerializeField]
+        public int hp;
+
         [Header("Camera")]
         public Camera playerCamera;
-        [SerializeField]  public float lookSpeed = 1f;
+        [SerializeField] public float lookSpeed = 1f;
         public float lookXLimit = 45f;
 
         Vector3 moveDirection = Vector3.zero; //(Vector3 (0,0,0) 
@@ -46,17 +50,17 @@ namespace UST
         private void Start()
         {
             Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false; 
+            Cursor.visible = false;
         }
 
 
         private void Update()
         {
             isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
-            if(isGrounded && velocity.y < 0)
+            if (isGrounded && velocity.y < 0)
             {
                 speed = 6f;
-                velocity.y = -2f; 
+                velocity.y = -2f;
             }
 
             float x = Input.GetAxis("Horizontal");
@@ -70,12 +74,12 @@ namespace UST
 
             velocity.y += gravity * Time.deltaTime;
 
-            controller.Move(velocity * Time.deltaTime);         
-            
+            controller.Move(velocity * Time.deltaTime);
+
 
             //rotation
             controller.Move(moveDirection * Time.deltaTime);
-            if(canMove)
+            if (canMove)
             {
                 rotationX += Input.GetAxis("Mouse Y") * -1 * lookSpeed;
                 rotationX = Mathf.Clamp(rotationX, -lookXLimit, lookXLimit);
@@ -83,21 +87,26 @@ namespace UST
                 transform.rotation *= Quaternion.Euler(0, Input.GetAxis("Mouse X") * lookSpeed, 0);
             }
 
-     
+
 
         }
         void Jump()
         {
-            if((Input.GetButtonDown("Jump")) && isGrounded)
+            if ((Input.GetButtonDown("Jump")) && isGrounded)
             {
                 velocity.y = Mathf.Sqrt(jumpHeight * -2 * gravity * jumpMultiplier);
                 jumpMultiplier = 1f;
-
             }
-
         }
 
+        public void TakeDamage(int damage)
+        {
+            hp -= damage;
+            if (hp <= 0)
+            {
+                // To do : Death
 
-
+            }
+        }
     }
 }
