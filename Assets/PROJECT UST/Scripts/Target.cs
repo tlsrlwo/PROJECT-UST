@@ -8,7 +8,7 @@ namespace UST
     {
        public void Hit()
         {
-            Debug.Log("Target Hit");
+            Debug.Log("Player Hit by Laser");
         }
     }
 }

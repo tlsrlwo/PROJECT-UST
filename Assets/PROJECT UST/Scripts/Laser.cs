@@ -38,7 +38,7 @@ namespace UST
         [SerializeField] private float laserDisatnce = 8f;
         [SerializeField] private LayerMask ignoreMask;
         [SerializeField] private UnityEvent OnHitTarget;
-        public bool isHit;
+        //public bool isHit;
 
         private RaycastHit rayHit;
         private Ray ray;

@@ -22,6 +22,7 @@ namespace UST
 
         [SerializeField]
         public int hp;
+     
 
         [Header("Camera")]
         public Camera playerCamera;
@@ -39,7 +40,7 @@ namespace UST
         {
             Instance = this;
             controller = GetComponent<CharacterController>();
-
+            
         }
 
         private void OnDestroy()
@@ -101,6 +102,7 @@ namespace UST
 
         public void TakeDamage(int damage)
         {
+            damage = 1;
             hp -= damage;
             if (hp <= 0)
             {
@@ -108,5 +110,6 @@ namespace UST
 
             }
         }
+
     }
 }

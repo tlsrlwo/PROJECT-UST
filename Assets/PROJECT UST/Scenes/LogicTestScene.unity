@@ -1892,12 +1892,11 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  isHit: 0
   lastShootTime: 0.1
   fireRate: 0.3
   range: 100
   bulletSpawn: {fileID: 476373862}
-  bulletPrefab: {fileID: 1579811139}
+  bulletPrefab: {fileID: 291402470916582756, guid: f1860e004c1fedc489aa7eda5a943205, type: 3}
   muzzlePrefab: {fileID: 305114921}
 --- !u!1001 &926432735
 PrefabInstance:
@@ -3071,11 +3070,6 @@ Transform:
   - {fileID: 851364456}
   m_Father: {fileID: 1943178161}
   m_LocalEulerAnglesHint: {x: 36.3, y: 0, z: 0}
---- !u!1 &1579811139 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 291402470916582756, guid: f1860e004c1fedc489aa7eda5a943205, type: 3}
-  m_PrefabInstance: {fileID: 926432735}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1579811140 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3125892952769676105, guid: f1860e004c1fedc489aa7eda5a943205, type: 3}
