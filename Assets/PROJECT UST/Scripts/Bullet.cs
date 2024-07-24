@@ -7,18 +7,41 @@ namespace UST
     public class Bullet : MonoBehaviour
     {
         public int decreaseHp = 1;
+        public float speed = 30f;
+        public float lifeTime = 10f;
 
-        public void OnCollisionEnter(Collision collision)
+        private void Start()
         {
-            Debug.Log("Hit! " + collision.gameObject.name);
+            Destroy(gameObject, lifeTime);
+        }
 
-            if (collision.gameObject.CompareTag("Player"))
+        private void Update()
+        {
+            transform.Translate(transform.forward * speed * Time.deltaTime);
+        }
+
+        private void OnTriggerEnter(Collider other)
+        {
+            if (other.gameObject.CompareTag("Player"))
             {
-                if (collision.gameObject.TryGetComponent(out TestController controller))
+                if (other.gameObject.TryGetComponent(out TestController controller))
                 {
                     controller.TakeDamage(decreaseHp);
                 }
             }
         }
+
+        //public void OnCollisionEnter(Collision collision)
+        //{
+        //    Debug.Log("Hit! " + collision.gameObject.name);
+
+        //    if (collision.gameObject.CompareTag("Player"))
+        //    {
+        //        if (collision.gameObject.TryGetComponent(out TestController controller))
+        //        {
+        //            controller.TakeDamage(decreaseHp);
+        //        }
+        //    }
+        //}
     }
 }
