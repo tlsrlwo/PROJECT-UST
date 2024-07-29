@@ -6,12 +6,14 @@ namespace UST
 {
     public class ObjectGrabbable : MonoBehaviour
     {
+        private Collider objectCollider;
         private Rigidbody objectsRb;
         private Transform objectGrabPointTransform;
         private bool isGrabbed = false;
 
         private void Awake()
         {
+            objectCollider = GetComponent<Collider>();
             objectsRb = GetComponent<Rigidbody>(); 
         }
 
@@ -20,6 +22,7 @@ namespace UST
             this.objectGrabPointTransform = objectGrabPointTransform;
             objectsRb.useGravity = false;
             isGrabbed = true;
+            objectCollider.isTrigger = true;
         }
 
         public void Drop()
@@ -27,6 +30,7 @@ namespace UST
             this.objectGrabPointTransform = null;
             objectsRb.useGravity = true;
             isGrabbed = false;
+            objectCollider.isTrigger = false;
         }
 
         private void Update()

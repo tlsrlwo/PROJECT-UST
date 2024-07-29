@@ -27,6 +27,8 @@ namespace UST
                     if (raycastHit.transform.TryGetComponent(out objectGrabbable))
                     {
                         objectGrabbable.Grab(objectGrabPointTransform);
+                        objectGrabbable.transform.SetParent(TestController.Instance.transform);
+
                         Debug.Log(objectGrabbable);
                     }
                 }
@@ -34,6 +36,8 @@ namespace UST
                 {
                     // currently carrying something
                     objectGrabbable.Drop();
+                    objectGrabbable.transform.SetParent(null);
+
                     objectGrabbable = null;
                 }
 
