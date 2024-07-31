@@ -9,6 +9,9 @@ namespace UST
     {
         public static TestController Instance { get; private set; } = null;
 
+        public GameObject deadCanvas;
+        public HurtHUD_UI hurtUI;
+
         [Header("Player Move")]
         public float speed = 6f;
         public float jumpHeight = 3f;
@@ -20,9 +23,9 @@ namespace UST
         Vector3 velocity;
         bool isGrounded;
 
-        [SerializeField]
-        public int hp;
-     
+        public int currentHP;
+        public int maxHP;
+        public bool isDead;
 
         [Header("Camera")]
         public Camera playerCamera;
@@ -35,6 +38,12 @@ namespace UST
         public bool canMove = true;
 
         [SerializeField] CharacterController controller;
+        public CrosshairUI crosshairUI;
+
+
+        [Header("Health Point Recovery System")]
+        public float recoveryDelayTime = 5f;
+        public float recoveryDeltaTime = 0f;
 
         private void Awake()
         {
@@ -88,9 +97,18 @@ namespace UST
                 transform.rotation *= Quaternion.Euler(0, Input.GetAxis("Mouse X") * lookSpeed, 0);
             }
 
-
-
+            if (recoveryDeltaTime > 0f)
+            {
+                recoveryDeltaTime -= Time.deltaTime;
+                if (recoveryDeltaTime <= 0)
+                {
+                    // 여기에 들어왔다는 뜻은 => 5초가 지나서 체력을 회복한다.
+                    currentHP = maxHP;
+                    hurtUI.SetAlpha(0);
+                }
+            }
         }
+
         void Jump()
         {
             if ((Input.GetButtonDown("Jump")) && isGrounded)
@@ -103,11 +121,23 @@ namespace UST
         public void TakeDamage(int damage)
         {
             damage = 1;
-            hp -= damage;
-            if (hp <= 0)
+            currentHP -= damage;
+
+            recoveryDeltaTime = recoveryDelayTime;
+
+            float currentPersentage = (float)currentHP / maxHP;
+            hurtUI.SetAlpha(1 - currentPersentage);
+
+            if (currentHP <= 0)
             {
                 // To do : Death
+                isDead = true;
+                deadCanvas.SetActive(true); 
 
+                Time.timeScale = 0f;
+
+                Cursor.lockState = CursorLockMode.None;
+                Cursor.visible = true;
             }
         }
 

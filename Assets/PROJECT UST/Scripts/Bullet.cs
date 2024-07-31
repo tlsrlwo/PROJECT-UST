@@ -26,6 +26,7 @@ namespace UST
             {
                 if (other.gameObject.TryGetComponent(out TestController controller))
                 {
+                    Debug.Log("PlayerHitByBullet");
                     controller.TakeDamage(decreaseHp);
                 }
             }

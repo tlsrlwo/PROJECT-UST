@@ -98,7 +98,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   decreaseHp: 1
-  speed: 10
+  speed: 30
   lifeTime: 10
 --- !u!1 &4309112479932508321
 GameObject:

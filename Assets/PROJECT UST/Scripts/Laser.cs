@@ -103,7 +103,7 @@ namespace UST
 
                 // Create Bullet
                 var newBullet = Instantiate(bulletPrefab);
-                newBullet.transform.SetPositionAndRotation(bulletSpawn.position, bulletSpawn.rotation);
+                newBullet.transform.SetPositionAndRotation(bulletSpawn.position, bulletSpawn.localRotation);
                 newBullet.gameObject.SetActive(true);
 
                 // 두 오브젝트가 서로 충돌처리가 되지 않게 Unity Physics Engine에게 무시하도록 지시
