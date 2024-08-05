@@ -90,7 +90,7 @@ namespace UST
             else
             {
                 // To do : Door Closed
-                if (door.transform.localPosition.y > closedPosition.y)
+                if (door.transform.position.y > closedPosition.y)
                 {
                     door.transform.Translate(-1 * door.transform.up * Time.deltaTime * 5);
                 }

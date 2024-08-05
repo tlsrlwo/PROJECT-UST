@@ -9,16 +9,13 @@ EditorBuildSettings:
     path: Assets/PROJECT UST/Scenes/Main.unity
     guid: 529d7dd5f1695774187fa2e8c5330ab5
   - enabled: 1
-    path: Assets/PROJECT UST/Scenes/Empty.unity
-    guid: cf14cab4f8f5fa64aafef4fd8a526700
-  - enabled: 1
     path: Assets/PROJECT UST/Scenes/Title.unity
     guid: 2a53411360fe0bf45ba81dd4cab6c2fc
   - enabled: 1
-    path: Assets/PROJECT UST/Scenes/GameScene.unity
-    guid: edccd715590757a45987e95c86b646cc
-  - enabled: 1
     path: Assets/PROJECT UST/Scenes/GameStageTest.unity
     guid: 1bafd6f239452404baa8a47f1f885105
+  - enabled: 1
+    path: Assets/PROJECT UST/Scenes/GameOver.unity
+    guid: cf14cab4f8f5fa64aafef4fd8a526700
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: 9e7be553448fa2546aea5752021cbcf7, type: 2}

@@ -2,6 +2,7 @@ using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace UST
 {
@@ -107,6 +108,13 @@ namespace UST
                     hurtUI.SetAlpha(0);
                 }
             }
+            if (Input.GetKeyDown(KeyCode.R))
+            {
+                Debug.Log("R is pressed");
+                SceneManager.LoadScene("GameStageTest");
+                Time.timeScale = 1f;
+            }
+
         }
 
         void Jump()
@@ -134,10 +142,12 @@ namespace UST
                 isDead = true;
                 deadCanvas.SetActive(true); 
 
-                Time.timeScale = 0f;
+                Time.timeScale = 0.0001f;
 
                 Cursor.lockState = CursorLockMode.None;
                 Cursor.visible = true;
+
+             
             }
         }
 

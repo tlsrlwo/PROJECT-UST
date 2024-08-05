@@ -9,7 +9,8 @@ namespace UST
     {
         public void onClickRestartBtn()
         {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+            Debug.Log("Button is Clicked");
+            SceneManager.LoadScene("GameStageTest");
         }
     }
 }
